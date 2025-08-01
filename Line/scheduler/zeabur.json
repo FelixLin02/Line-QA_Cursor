@@ -1,6 +1,0 @@
-{
-  "cron": {
-    "command": "python3 scheduler.py",
-    "schedule": "0 21 * * *"
-  }
-}
