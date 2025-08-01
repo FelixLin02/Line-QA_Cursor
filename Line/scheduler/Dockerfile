@@ -11,7 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 複製排程器主程式
 COPY scheduler.py .
 
-# 【本次關鍵修正】
 # 安裝 cron 服務
 RUN apt-get update && apt-get -y install cron
 
@@ -24,7 +23,12 @@ RUN chmod 0644 /etc/cron.d/scheduler-cron
 # 建立一個日誌檔案，以便 tail 指令可以追蹤它
 RUN touch /var/log/cron.log
 
-# 容器啟動時執行的指令：
-# 1. 啟動 cron 服務 (在背景運行)
-# 2. 使用 tail -f 來讓容器保持前景運行，並持續輸出 cron 的日誌
-CMD cron && tail -f /var/log/cron.log
+# 複製我們的啟動腳本到容器中
+COPY entrypoint.sh /usr/local/bin/
+
+# 賦予啟動腳本執行的權限
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# 【本次最終修正】
+# 將啟動腳本設定為容器啟動時執行的唯一指令。
+CMD ["entrypoint.sh"]
