@@ -1,3 +1,1 @@
-# m h  dom mon dow   command
-0 21 * * * python3 /app/scheduler.py >> /proc/1/fd/1 2>>/proc/1/fd/2
-# 檔案結尾必須保留一個空行，這是 crontab 的標準格式要求。
+0 21 * * * python3 /app/scheduler.py >> /var/log/cron.log 2>&1
